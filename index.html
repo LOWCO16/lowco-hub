@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOW.CO HUB</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #141414;
+    --card: #1c1c1c;
+    --border: #2a2a2a;
+    --accent: #e8ff00;
+    --accent2: #ff3c00;
+    --text: #f0f0f0;
+    --muted: #666;
+    --prime: #9b59b6;
+    --paint: #e67e22;
+    --panel: #2980b9;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --yellow: #f1c40f;
+    --pink: #ff6b9d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--dark);
+    border-bottom: 2px solid var(--accent);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    background: var(--black);
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .logo-svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: -4px;
+  }
+
+  .header-date {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .header-date span {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* NAV */
+  .nav {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    padding: 14px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .nav-btn:hover { color: var(--text); }
+
+  /* MAIN */
+  .main { padding: 20px; max-width: 1200px; margin: 0 auto; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* VOICE INPUT */
+  .voice-area {
+    background: var(--black);
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 30px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: border-color 0.2s;
+  }
+
+  .voice-area.listening {
+    border-color: var(--accent);
+    background: rgba(232, 255, 0, 0.03);
+  }
+
+  .mic-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .mic-btn:hover { transform: scale(1.05); }
+
+  .mic-btn.listening {
+    background: var(--accent2);
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 60, 0, 0.4); }
+    50% { box-shadow: 0 0 0 16px rgba(255, 60, 0, 0); }
+  }
+
+  .mic-btn svg { width: 32px; height: 32px; }
+
+  .voice-status {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .voice-status.active { color: var(--accent2); font-weight: 600; }
+
+  .voice-transcript {
+    font-size: 14px;
+    color: var(--text);
+    min-height: 40px;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  /* FORM */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, textarea, select {
+    background: var(--black);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* SECTIONS LIST */
+  .job-sections { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+  .job-section-block {
+    background: var(--black);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .job-section-header {
+    background: var(--border);
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .job-section-items { padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+
+  .job-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .job-item::before {
+    content: '•';
+    color: var(--accent);
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  /* BUTTONS */
+  .btn {
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  .btn-primary:hover { background: #d4eb00; }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-danger {
+    background: transparent;
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* JOBS LIST */
+  .jobs-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .job-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .job-card:hover { border-color: var(--accent); }
+
+  .job-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+
+  .job-card-title {
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .job-card-meta {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .job-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .status-active { background: rgba(39, 174, 96, 0.2); color: var(--green); }
+  .status-pending { background: rgba(241, 196, 15, 0.2); color: var(--yellow); }
+  .status-done { background: rgba(102, 102, 102, 0.2); color: var(--muted); }
+
+  /* BOARDS */
+  .board-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .board-grid { grid-template-columns: 1fr; }
+  }
+
+  .board-section {
+    background: var(--black);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .board-section-header {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .board-section-header.prime { background: rgba(155, 89, 182, 0.3); color: #c39bd3; }
+  .board-section-header.paint { background: rgba(230, 126, 34, 0.3); color: #f0a368; }
+  .board-section-header.panel { background: rgba(41, 128, 185, 0.3); color: #5dade2; }
+  .board-section-header.booth { background: rgba(39, 174, 96, 0.3); color: #58d68d; }
+  .board-section-header.going { background: rgba(232, 255, 0, 0.15); color: var(--accent); }
+  .board-section-header.worker-repairs { background: rgba(231, 76, 60, 0.25); color: #ec7063; }
+  .board-section-header.worker-fitup { background: rgba(41, 128, 185, 0.25); color: #5dade2; }
+
+  .board-items { padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+
+  .board-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--card);
+    border-radius: 6px;
+    font-size: 13px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .board-item:hover { border-color: var(--border); }
+
+  .board-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .board-item.checked { opacity: 0.4; text-decoration: line-through; }
+
+  .board-item-text { flex: 1; font-size: 13px; }
+
+  .board-num {
+    font-size: 11px;
+    color: var(--muted);
+    width: 18px;
+    flex-shrink: 0;
+  }
+
+  .add-board-item {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .add-board-item input {
+    flex: 1;
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .add-board-item button {
+    padding: 7px 12px;
+    background: var(--accent);
+    color: var(--black);
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* WORKER COLUMNS */
+  .workers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .worker-col {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .worker-header {
+    padding: 12px 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .worker-color-0 { background: rgba(241, 196, 15, 0.2); color: var(--yellow); border-bottom: 2px solid var(--yellow); }
+  .worker-color-1 { background: rgba(41, 128, 185, 0.2); color: #5dade2; border-bottom: 2px solid #5dade2; }
+  .worker-color-2 { background: rgba(39, 174, 96, 0.2); color: var(--green); border-bottom: 2px solid var(--green); }
+  .worker-color-3 { background: rgba(231, 76, 60, 0.2); color: var(--red); border-bottom: 2px solid var(--red); }
+  .worker-color-4 { background: rgba(155, 89, 182, 0.2); color: #c39bd3; border-bottom: 2px solid #c39bd3; }
+  .worker-color-5 { background: rgba(255, 107, 157, 0.2); color: var(--pink); border-bottom: 2px solid var(--pink); }
+
+  .worker-section-label {
+    padding: 6px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* INVOICE PREVIEW */
+  .invoice-preview {
+    background: white;
+    color: #111;
+    border-radius: 8px;
+    padding: 40px;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .invoice-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: rgba(0,0,0,0.04);
+    letter-spacing: 10px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #0a0a0a;
+  }
+
+  .invoice-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 4px;
+    color: #0a0a0a;
+    line-height: 1;
+  }
+
+  .invoice-logo span {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  .invoice-meta { text-align: right; font-size: 13px; color: #444; }
+  .invoice-meta strong { color: #0a0a0a; }
+
+  .invoice-section { margin-bottom: 20px; }
+  .invoice-section-title {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+
+  .invoice-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #333;
+    padding: 4px 0;
+  }
+
+  .invoice-item::before { content: '–'; color: #999; }
+
+  .invoice-total {
+    border-top: 2px solid #0a0a0a;
+    margin-top: 20px;
+    padding-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .total-box {
+    background: #0a0a0a;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-align: right;
+  }
+
+  .total-label { font-size: 11px; letter-spacing: 1px; opacity: 0.6; }
+  .total-amount { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .close-btn:hover { color: var(--text); }
+
+  /* EMPTY STATE */
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-text { font-size: 14px; }
+
+  /* PAINT QUEUE */
+  .paint-queue { display: flex; flex-direction: column; gap: 4px; }
+
+  .queue-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--card);
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .queue-item:hover { border-color: var(--border); }
+  .queue-num { font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--muted); width: 20px; }
+  .queue-text { flex: 1; font-size: 13px; }
+  .queue-item.checked .queue-text { text-decoration: line-through; opacity: 0.4; }
+
+  /* GOING LIST */
+  .going-list { display: flex; flex-direction: column; gap: 6px; }
+
+  .going-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--card);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+  }
+
+  .going-item-info { display: flex; flex-direction: column; gap: 2px; }
+  .going-item-car { font-weight: 600; }
+  .going-item-customer { font-size: 12px; color: var(--muted); }
+  .going-badge { font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  .section-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 3px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .prime-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .prime-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .prime-cell {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-size: 12px;
+    min-height: 36px;
+    cursor: text;
+  }
+
+  .prime-cell[contenteditable]:focus {
+    outline: 1px solid var(--prime);
+    background: var(--black);
+  }
+
+  .prime-cell-header {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #c39bd3;
+    padding: 4px 8px;
+    background: rgba(155, 89, 182, 0.15);
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  /* CHAT */
+  .chat-msg { display: flex; }
+  .chat-msg.user { justify-content: flex-end; }
+  .chat-bubble { max-width: 82%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.5; }
+  .bot-bubble { background: var(--card); border: 1px solid var(--border); border-bottom-left-radius: 4px; color: var(--text); }
+  .user-bubble { background: var(--accent); color: var(--black); font-weight: 500; border-bottom-right-radius: 4px; }
+  .typing-dots { display: flex; gap: 4px; align-items: center; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; border-bottom-left-radius: 4px; width: fit-content; }
+  .typing-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: typingBounce 1.2s infinite; }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} }
+  #botMicBtn.bot-listening { background: var(--accent2) !important; animation: pulse 1s infinite; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-area">
+    <div class="logo-mark">
+      <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" fill="#0a0a0a"/>
+        <text x="50" y="68" text-anchor="middle" font-family="Bebas Neue, Arial Black, sans-serif" font-size="52" fill="#e8ff00" letter-spacing="2">LC</text>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-text">LOW.CO</div>
+      <div class="logo-sub">Panel &amp; Paint</div>
+    </div>
+  </div>
+  <div class="header-date">
+    <span id="headerDate">—</span>
+    <div id="headerTime">—</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showSection('jobsheets')">Job Sheets</button>
+  <button class="nav-btn" onclick="showSection('paintboard')">Paint Board</button>
+  <button class="nav-btn" onclick="showSection('panelboard')">Panel Board</button>
+  <button class="nav-btn" onclick="showSection('goinglist')">Going List</button>
+  <button class="nav-btn" onclick="showSection('aichat')" style="color:var(--accent);">🤖 AI Bot</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- JOB SHEETS -->
+  <div id="jobsheets" class="section active">
+    <div class="section-heading">Job Sheets</div>
+    <div class="section-sub">Create a new job sheet using voice or type it in</div>
+
+    <div class="card">
+      <div class="card-title"><div class="dot"></div> New Job Sheet</div>
+
+      <!-- VOICE INPUT -->
+      <div class="voice-area" id="voiceArea">
+        <button class="mic-btn" id="micBtn" onclick="toggleVoice()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <div class="voice-status" id="voiceStatus">Tap mic to speak your job details</div>
+        <div class="voice-transcript" id="voiceTranscript">e.g. "Customer John Smith, 2019 Nissan 370Z, strip and refit front bumper off, bonnet off, repair marked damage, paint entire front end gunmetal..."</div>
+      </div>
+
+      <!-- JOB FORM -->
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Customer Name</label>
+          <input type="text" id="customerName" placeholder="e.g. John Smith">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" id="customerPhone" placeholder="e.g. 0400 000 000">
+        </div>
+        <div class="form-group">
+          <label>Vehicle</label>
+          <input type="text" id="vehicle" placeholder="e.g. 2019 Nissan 370Z">
+        </div>
+        <div class="form-group">
+          <label>Colour</label>
+          <input type="text" id="colour" placeholder="e.g. Gunmetal">
+        </div>
+        <div class="form-group">
+          <label>Rego</label>
+          <input type="text" id="rego" placeholder="e.g. ABC123">
+        </div>
+        <div class="form-group">
+          <label>Job Status</label>
+          <select id="jobStatus">
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- JOB SECTIONS -->
+      <div class="job-sections" id="jobSections">
+        <div class="job-section-block" data-section="Strip & Refit (R&R)">
+          <div class="job-section-header">
+            Strip &amp; Refit (R&amp;R)
+            <button onclick="clearSection(this)" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;">×</button>
+          </div>
+          <div class="job-section-items" contenteditable="true" placeholder="Type items here, one per line..."></div>
+        </div>
+        <div class="job-section-block" data-section="Repairs">
+          <div class="job-section-header">
+            Repairs
+            <button onclick="clearSection(this)" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;">×</button>
+          </div>
+          <div class="job-section-items" contenteditable="true" placeholder="Type items here, one per line..."></div>
+        </div>
+        <div class="job-section-block" data-section="Paint">
+          <div class="job-section-header">
+            Paint
+            <button onclick="clearSection(this)" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;">×</button>
+          </div>
+          <div class="job-section-items" contenteditable="true" placeholder="Type items here, one per line..."></div>
+        </div>
+        <div class="job-section-block" data-section="Detailing">
+          <div class="job-section-header">
+            Detailing
+            <button onclick="clearSection(this)" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;">×</button>
+          </div>
+          <div class="job-section-items" contenteditable="true" placeholder="Type items here, one per line..."></div>
+        </div>
+        <div class="job-section-block" data-section="Notes">
+          <div class="job-section-header">
+            Notes
+            <button onclick="clearSection(this)" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;">×</button>
+          </div>
+          <div class="job-section-items" contenteditable="true" placeholder="Any notes..."></div>
+        </div>
+      </div>
+
+      <div class="form-grid" style="margin-bottom:16px;">
+        <div class="form-group">
+          <label>Labour ($)</label>
+          <input type="number" id="labour" placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label>Parts ($)</label>
+          <input type="number" id="parts" placeholder="0.00">
+        </div>
+        <div class="form-group full">
+          <label>Notes / Special Instructions</label>
+          <textarea id="extraNotes" placeholder="Any extra notes..."></textarea>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="saveJob()">Save Job Sheet</button>
+        <button class="btn btn-secondary" onclick="previewInvoice()">Preview Invoice</button>
+        <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+      </div>
+    </div>
+
+    <!-- SAVED JOBS -->
+    <div class="card">
+      <div class="card-title"><div class="dot"></div> Saved Jobs</div>
+      <div class="jobs-list" id="jobsList">
+        <div class="empty">
+          <div class="empty-icon">📋</div>
+          <div class="empty-text">No jobs saved yet. Create your first one above.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINT BOARD -->
+  <div id="paintboard" class="section">
+    <div class="section-heading">Paint Shop</div>
+    <div class="section-sub">Daily paint shop to do board</div>
+
+    <!-- PRIME -->
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:#c39bd3"></div> Prime</div>
+      <div class="prime-grid" id="primeGrid">
+        <div class="prime-cell-header">Column 1</div>
+        <div class="prime-cell-header">Column 2</div>
+        <div class="prime-cell-header">Column 3</div>
+        <div class="prime-cell-header">Parts *****</div>
+      </div>
+      <div id="primeCells"></div>
+      <button class="btn btn-secondary" style="margin-top:8px;font-size:11px;padding:8px 14px;" onclick="addPrimeRow()">+ Add Row</button>
+    </div>
+
+    <!-- PAINT QUEUE -->
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:#f0a368"></div> Paint Queue</div>
+      <div class="paint-queue" id="paintQueue"></div>
+      <div class="add-board-item">
+        <input type="text" id="paintInput" placeholder="Add to paint queue..." onkeydown="if(event.key==='Enter')addPaintItem()">
+        <button onclick="addPaintItem()">+</button>
+      </div>
+    </div>
+
+    <!-- BOOTHS -->
+    <div class="board-grid">
+      <div class="board-section">
+        <div class="board-section-header booth">Booth #1</div>
+        <div class="board-items" id="booth1"></div>
+        <div class="add-board-item">
+          <input type="text" id="booth1Input" placeholder="Add job..." onkeydown="if(event.key==='Enter')addBoothItem(1)">
+          <button onclick="addBoothItem(1)">+</button>
+        </div>
+      </div>
+      <div class="board-section">
+        <div class="board-section-header booth">Booth #2</div>
+        <div class="board-items" id="booth2"></div>
+        <div class="add-board-item">
+          <input type="text" id="booth2Input" placeholder="Add job..." onkeydown="if(event.key==='Enter')addBoothItem(2)">
+          <button onclick="addBoothItem(2)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL BOARD -->
+  <div id="panelboard" class="section">
+    <div class="section-heading">Panel Shop</div>
+    <div class="section-sub">Daily panel shop to do board — workers &amp; their jobs</div>
+
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="newWorkerName" placeholder="Worker name..." style="max-width:200px;" onkeydown="if(event.key==='Enter')addWorker()">
+      <button class="btn btn-primary" style="padding:10px 16px;" onclick="addWorker()">+ Add Worker</button>
+    </div>
+
+    <div class="workers-grid" id="workersGrid">
+      <!-- Workers added dynamically -->
+    </div>
+  </div>
+
+  <!-- GOING LIST -->
+  <div id="goinglist" class="section">
+    <div class="section-heading">Going List</div>
+    <div class="section-sub">All active vehicles currently in the shop</div>
+
+    <div class="card">
+      <div class="form-grid" style="margin-bottom:12px;">
+        <div class="form-group">
+          <label>Customer</label>
+          <input type="text" id="goingCustomer" placeholder="Customer name">
+        </div>
+        <div class="form-group">
+          <label>Vehicle</label>
+          <input type="text" id="goingVehicle" placeholder="e.g. Blue Ford Ranger">
+        </div>
+        <div class="form-group">
+          <label>Job Type</label>
+          <select id="goingType">
+            <option>Panel</option>
+            <option>Paint</option>
+            <option>Both</option>
+            <option>Fit Up</option>
+            <option>Repairs</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Assigned To</label>
+          <input type="text" id="goingWorker" placeholder="Worker name">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="addGoingItem()">Add to Going List</button>
+    </div>
+
+    <div class="going-list" id="goingListItems">
+      <div class="empty">
+        <div class="empty-icon">🚗</div>
+        <div class="empty-text">No vehicles on the going list yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI BOT -->
+  <div id="aichat" class="section">
+    <div class="section-heading">AI Bot</div>
+    <div class="section-sub">Talk or type — the bot fills out your job sheet automatically</div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div id="chatMessages" style="height:420px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;">
+        <div class="chat-msg bot">
+          <div class="chat-bubble bot-bubble">G'day! I'm your Lowco assistant. Tell me about the job — customer name, vehicle, what needs doing — and I'll fill out the job sheet for you. You can talk or type. 🤙</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding:12px;display:flex;gap:8px;align-items:flex-end;background:var(--dark);">
+        <button id="botMicBtn" onclick="toggleBotVoice()" style="width:44px;height:44px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <textarea id="botInput" placeholder="Type your job details or tap the mic..." rows="1" style="flex:1;resize:none;padding:10px 12px;font-size:14px;max-height:100px;overflow-y:auto;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendBotMessage()}" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+        <button onclick="sendBotMessage()" style="width:44px;height:44px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INVOICE MODAL -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="modal">
+    <div class="modal-title">
+      Invoice Preview
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div id="invoiceContent"></div>
+    <div class="btn-row" style="margin-top:20px;">
+      <button class="btn btn-primary" onclick="printInvoice()">Print / Save PDF</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========================
+// STATE
+// ========================
+let jobs = JSON.parse(localStorage.getItem('lowco_jobs') || '[]');
+let paintQueue = JSON.parse(localStorage.getItem('lowco_paintqueue') || '[]');
+let booths = JSON.parse(localStorage.getItem('lowco_booths') || '{"1":[],"2":[]}');
+let workers = JSON.parse(localStorage.getItem('lowco_workers') || '[]');
+let goingList = JSON.parse(localStorage.getItem('lowco_going') || '[]');
+let primeRows = JSON.parse(localStorage.getItem('lowco_prime') || '[["","","",""],["","","",""],["","","",""]]');
+let recognition = null;
+let isListening = false;
+let jobCounter = JSON.parse(localStorage.getItem('lowco_counter') || '1');
+
+// ========================
+// INIT
+// ========================
+function init() {
+  updateClock();
+  setInterval(updateClock, 1000);
+  renderJobs();
+  renderPaintQueue();
+  renderBooths();
+  renderWorkers();
+  renderGoingList();
+  renderPrimeCells();
+  setupVoice();
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('headerDate').textContent = now.toLocaleDateString('en-AU', { weekday:'short', day:'numeric', month:'short' });
+  document.getElementById('headerTime').textContent = now.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit' });
+}
+
+function save() {
+  localStorage.setItem('lowco_jobs', JSON.stringify(jobs));
+  localStorage.setItem('lowco_paintqueue', JSON.stringify(paintQueue));
+  localStorage.setItem('lowco_booths', JSON.stringify(booths));
+  localStorage.setItem('lowco_workers', JSON.stringify(workers));
+  localStorage.setItem('lowco_going', JSON.stringify(goingList));
+  localStorage.setItem('lowco_prime', JSON.stringify(primeRows));
+  localStorage.setItem('lowco_counter', JSON.stringify(jobCounter));
+}
+
+// ========================
+// NAV
+// ========================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ========================
+// VOICE
+// ========================
+function setupVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    document.getElementById('voiceStatus').textContent = 'Voice not supported on this browser — type your job below';
+    document.getElementById('micBtn').style.opacity = '0.4';
+    document.getElementById('micBtn').onclick = null;
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-AU';
+
+  recognition.onresult = (e) => {
+    let interim = '', final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    document.getElementById('voiceTranscript').textContent = interim || final;
+    if (final) parseVoiceInput(final);
+  };
+
+  recognition.onerror = () => stopVoice();
+  recognition.onend = () => { if (isListening) recognition.start(); };
+}
+
+function toggleVoice() {
+  if (isListening) stopVoice();
+  else startVoice();
+}
+
+function startVoice() {
+  if (!recognition) return;
+  isListening = true;
+  recognition.start();
+  document.getElementById('micBtn').classList.add('listening');
+  document.getElementById('voiceArea').classList.add('listening');
+  document.getElementById('voiceStatus').textContent = '🔴 Listening... speak your job details';
+  document.getElementById('voiceStatus').classList.add('active');
+}
+
+function stopVoice() {
+  isListening = false;
+  if (recognition) recognition.stop();
+  document.getElementById('micBtn').classList.remove('listening');
+  document.getElementById('voiceArea').classList.remove('listening');
+  document.getElementById('voiceStatus').textContent = 'Tap mic to speak your job details';
+  document.getElementById('voiceStatus').classList.remove('active');
+}
+
+async function parseVoiceInput(text) {
+  document.getElementById('voiceStatus').textContent = '🤖 Processing with AI...';
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('API error:', data);
+      document.getElementById('voiceStatus').textContent = 'Error: ' + (data.error || 'Could not process. Try again.');
+      return;
+    }
+
+    const reply = data.content && data.content[0] ? data.content[0].text.trim() : null;
+
+    if (reply) {
+      const clean = reply.replace(/```json|```/g, '').trim();
+      const job = JSON.parse(clean);
+
+      if (job.customer) document.getElementById('customerName').value = job.customer;
+      if (job.phone) document.getElementById('customerPhone').value = job.phone;
+      if (job.vehicle) document.getElementById('vehicle').value = job.vehicle;
+      if (job.colour) document.getElementById('colour').value = job.colour;
+      if (job.rego) document.getElementById('rego').value = job.rego;
+
+      const sectionMap = {
+        'Strip & Refit (R&R)': job.stripRefit,
+        'Repairs': job.repairs,
+        'Paint': job.paint,
+        'Detailing': job.detailing,
+        'Notes': job.notes
+      };
+
+      document.querySelectorAll('.job-section-block').forEach(block => {
+        const title = block.dataset.section;
+        const items = sectionMap[title];
+        if (items && items.length > 0) {
+          block.querySelector('.job-section-items').innerText = items.join('\n');
+        }
+      });
+
+      document.getElementById('voiceStatus').textContent = '✅ Done! Check the form below and save.';
+    }
+  } catch (err) {
+    console.error(err);
+    document.getElementById('voiceStatus').textContent = 'Error processing — try again';
+  }
+}
+
+// ========================
+// JOB SHEET
+// ========================
+function saveJob() {
+  const customer = document.getElementById('customerName').value.trim();
+  const vehicle = document.getElementById('vehicle').value.trim();
+
+  if (!customer && !vehicle) {
+    alert('Please add at least a customer name or vehicle.');
+    return;
+  }
+
+  const sections = {};
+  document.querySelectorAll('.job-section-block').forEach(block => {
+    const title = block.dataset.section;
+    const items = block.querySelector('.job-section-items').innerText.trim();
+    if (items) sections[title] = items.split('\n').filter(l => l.trim());
+  });
+
+  const job = {
+    id: jobCounter++,
+    customer,
+    phone: document.getElementById('customerPhone').value.trim(),
+    vehicle,
+    colour: document.getElementById('colour').value.trim(),
+    rego: document.getElementById('rego').value.trim(),
+    status: document.getElementById('jobStatus').value,
+    sections,
+    labour: document.getElementById('labour').value || '0',
+    parts: document.getElementById('parts').value || '0',
+    notes: document.getElementById('extraNotes').value.trim(),
+    date: new Date().toLocaleDateString('en-AU')
+  };
+
+  jobs.unshift(job);
+  save();
+  renderJobs();
+  clearForm();
+  alert(`Job #${job.id} saved for ${job.customer || job.vehicle}!`);
+}
+
+function clearForm() {
+  ['customerName','customerPhone','vehicle','colour','rego','labour','parts','extraNotes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.querySelectorAll('.job-section-items').forEach(el => el.innerText = '');
+  document.getElementById('voiceTranscript').textContent = 'e.g. "Customer John Smith, 2019 Nissan 370Z, strip and refit front bumper off, bonnet off..."';
+}
+
+function clearSection(btn) {
+  btn.closest('.job-section-block').querySelector('.job-section-items').innerText = '';
+}
+
+function renderJobs() {
+  const el = document.getElementById('jobsList');
+  if (!jobs.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">No jobs saved yet.</div></div>';
+    return;
+  }
+  el.innerHTML = jobs.map(j => `
+    <div class="job-card" onclick="viewJob(${j.id})">
+      <div class="job-card-header">
+        <div>
+          <div class="job-card-title">${j.customer || 'Unknown Customer'} — ${j.vehicle || '—'}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">${j.rego ? 'Rego: '+j.rego+' · ' : ''}${j.date}</div>
+        </div>
+        <div class="job-card-meta">
+          <div class="job-number">#${j.id}</div>
+          <div class="status-badge status-${j.status}">${j.status}</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);">
+        ${Object.keys(j.sections).join(' · ') || 'No sections'}
+        ${j.labour || j.parts ? ' · $'+(parseFloat(j.labour||0)+parseFloat(j.parts||0)).toFixed(2) : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function viewJob(id) {
+  const j = jobs.find(x => x.id === id);
+  if (!j) return;
+  // Load into form
+  document.getElementById('customerName').value = j.customer;
+  document.getElementById('customerPhone').value = j.phone;
+  document.getElementById('vehicle').value = j.vehicle;
+  document.getElementById('colour').value = j.colour;
+  document.getElementById('rego').value = j.rego;
+  document.getElementById('jobStatus').value = j.status;
+  document.getElementById('labour').value = j.labour;
+  document.getElementById('parts').value = j.parts;
+  document.getElementById('extraNotes').value = j.notes;
+  document.querySelectorAll('.job-section-block').forEach(block => {
+    const items = j.sections[block.dataset.section];
+    block.querySelector('.job-section-items').innerText = items ? items.join('\n') : '';
+  });
+  showSection('jobsheets');
+  window.scrollTo(0, 0);
+}
+
+// ========================
+// INVOICE
+// ========================
+function previewInvoice() {
+  const customer = document.getElementById('customerName').value.trim() || '—';
+  const vehicle = document.getElementById('vehicle').value.trim() || '—';
+  const rego = document.getElementById('rego').value.trim();
+  const labour = parseFloat(document.getElementById('labour').value || 0);
+  const parts = parseFloat(document.getElementById('parts').value || 0);
+  const total = labour + parts;
+  const date = new Date().toLocaleDateString('en-AU');
+
+  let sectionsHtml = '';
+  document.querySelectorAll('.job-section-block').forEach(block => {
+    const title = block.dataset.section;
+    const items = block.querySelector('.job-section-items').innerText.trim();
+    if (items) {
+      const itemsHtml = items.split('\n').filter(l=>l.trim()).map(i => `<div class="invoice-item">${i}</div>`).join('');
+      sectionsHtml += `<div class="invoice-section"><div class="invoice-section-title">${title}</div>${itemsHtml}</div>`;
+    }
+  });
+
+  document.getElementById('invoiceContent').innerHTML = `
+    <div class="invoice-preview" id="printArea">
+      <div class="invoice-watermark">LOW.CO</div>
+      <div class="invoice-header">
+        <div>
+          <div class="invoice-logo">LOW.CO<span>Panel &amp; Paint</span></div>
+        </div>
+        <div class="invoice-meta">
+          <div><strong>Invoice Date:</strong> ${date}</div>
+          <div><strong>Job #:</strong> ${jobCounter}</div>
+          <div style="margin-top:10px;"><strong>${customer}</strong></div>
+          <div>${vehicle}${rego ? ' · ' + rego : ''}</div>
+        </div>
+      </div>
+      ${sectionsHtml}
+      <div class="invoice-total">
+        <div class="total-box">
+          <div class="total-label">TOTAL</div>
+          <div class="total-amount">$${total.toFixed(2)}</div>
+          <div style="font-size:11px;opacity:0.6;margin-top:4px;">Labour $${labour.toFixed(2)} + Parts $${parts.toFixed(2)}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('invoiceModal').classList.add('open');
+}
+
+function printInvoice() {
+  const content = document.getElementById('printArea').outerHTML;
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <html><head><title>LOW.CO Invoice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { margin: 0; padding: 20px; font-family: Inter, sans-serif; }
+      .invoice-preview { max-width: 800px; margin: 0 auto; padding: 40px; position: relative; overflow: hidden; }
+      .invoice-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Bebas Neue'; font-size: 120px; color: rgba(0,0,0,0.04); letter-spacing: 10px; pointer-events: none; white-space: nowrap; }
+      .invoice-header { display: flex; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #0a0a0a; }
+      .invoice-logo { font-family: 'Bebas Neue'; font-size: 42px; letter-spacing: 4px; color: #0a0a0a; }
+      .invoice-logo span { display: block; font-size: 11px; letter-spacing: 3px; color: #666; }
+      .invoice-meta { text-align: right; font-size: 13px; color: #444; }
+      .invoice-section { margin-bottom: 20px; }
+      .invoice-section-title { font-weight: 700; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 6px; margin-bottom: 10px; }
+      .invoice-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: #333; padding: 4px 0; }
+      .invoice-item::before { content: '–'; color: #999; }
+      .invoice-total { border-top: 2px solid #0a0a0a; margin-top: 20px; padding-top: 16px; display: flex; justify-content: flex-end; }
+      .total-box { background: #0a0a0a; color: white; padding: 12px 24px; border-radius: 6px; text-align: right; }
+      .total-label { font-size: 11px; letter-spacing: 1px; opacity: 0.6; }
+      .total-amount { font-family: 'Bebas Neue'; font-size: 32px; letter-spacing: 2px; }
+    </style></head>
+    <body>${content}<script>window.onload=()=>window.print()<\/script></body></html>
+  `);
+  win.document.close();
+}
+
+function closeModal() {
+  document.getElementById('invoiceModal').classList.remove('open');
+}
+
+// ========================
+// PAINT BOARD
+// ========================
+function renderPrimeCells() {
+  const grid = document.getElementById('primeCells');
+  grid.innerHTML = primeRows.map((row, ri) => `
+    <div class="prime-grid" style="margin-bottom:4px;">
+      ${row.map((cell, ci) => `
+        <div class="prime-cell" contenteditable="true" 
+          oninput="updatePrimeCell(${ri},${ci},this.innerText)"
+          onblur="updatePrimeCell(${ri},${ci},this.innerText)"
+        >${cell}</div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function updatePrimeCell(ri, ci, val) {
+  primeRows[ri][ci] = val;
+  save();
+}
+
+function addPrimeRow() {
+  primeRows.push(['','','','']);
+  save();
+  renderPrimeCells();
+}
+
+function addPaintItem() {
+  const input = document.getElementById('paintInput');
+  const val = input.value.trim();
+  if (!val) return;
+  paintQueue.push({ text: val, checked: false });
+  input.value = '';
+  save();
+  renderPaintQueue();
+}
+
+function renderPaintQueue() {
+  const el = document.getElementById('paintQueue');
+  el.innerHTML = paintQueue.map((item, i) => `
+    <div class="queue-item ${item.checked ? 'checked' : ''}">
+      <div class="queue-num">${i+1}</div>
+      <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePaintItem(${i})">
+      <div class="queue-text">${item.text}</div>
+      <button onclick="removePaintItem(${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:0 4px;">×</button>
+    </div>
+  `).join('') || '<div style="padding:10px;color:var(--muted);font-size:13px;">Paint queue empty</div>';
+}
+
+function togglePaintItem(i) {
+  paintQueue[i].checked = !paintQueue[i].checked;
+  save();
+  renderPaintQueue();
+}
+
+function removePaintItem(i) {
+  paintQueue.splice(i, 1);
+  save();
+  renderPaintQueue();
+}
+
+function addBoothItem(num) {
+  const input = document.getElementById(`booth${num}Input`);
+  const val = input.value.trim();
+  if (!val) return;
+  booths[num].push({ text: val, checked: false });
+  input.value = '';
+  save();
+  renderBooths();
+}
+
+function renderBooths() {
+  [1, 2].forEach(num => {
+    const el = document.getElementById(`booth${num}`);
+    el.innerHTML = booths[num].map((item, i) => `
+      <div class="board-item ${item.checked ? 'checked' : ''}">
+        <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleBooth(${num},${i})">
+        <div class="board-item-text">${item.text}</div>
+        <button onclick="removeBooth(${num},${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;">×</button>
+      </div>
+    `).join('') || '<div style="padding:8px 10px;color:var(--muted);font-size:12px;">Empty</div>';
+  });
+}
+
+function toggleBooth(num, i) {
+  booths[num][i].checked = !booths[num][i].checked;
+  save();
+  renderBooths();
+}
+
+function removeBooth(num, i) {
+  booths[num].splice(i, 1);
+  save();
+  renderBooths();
+}
+
+// ========================
+// PANEL BOARD — WORKERS
+// ========================
+const workerColors = ['worker-color-0','worker-color-1','worker-color-2','worker-color-3','worker-color-4','worker-color-5'];
+
+function addWorker() {
+  const name = document.getElementById('newWorkerName').value.trim().toUpperCase();
+  if (!name) return;
+  workers.push({ name, repairs: [], fitup: [] });
+  document.getElementById('newWorkerName').value = '';
+  save();
+  renderWorkers();
+}
+
+function renderWorkers() {
+  const grid = document.getElementById('workersGrid');
+  if (!workers.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1;"><div class="empty-icon">👷</div><div class="empty-text">No workers added yet. Add a worker above.</div></div>';
+    return;
+  }
+  grid.innerHTML = workers.map((w, wi) => `
+    <div class="worker-col">
+      <div class="worker-header ${workerColors[wi % workerColors.length]}">
+        ${w.name}
+        <button onclick="removeWorker(${wi})" style="background:none;border:none;color:inherit;opacity:0.5;cursor:pointer;font-size:20px;line-height:1;">×</button>
+      </div>
+      <div class="worker-section-label">Repairs</div>
+      <div class="board-items" id="repairs-${wi}">
+        ${w.repairs.map((item, i) => `
+          <div class="board-item ${item.checked ? 'checked' : ''}">
+            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleWorkerItem(${wi},'repairs',${i})">
+            <div class="board-item-text">${item.text}</div>
+            <button onclick="removeWorkerItem(${wi},'repairs',${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;">×</button>
+          </div>
+        `).join('') || '<div style="padding:6px 10px;color:var(--muted);font-size:12px;">None</div>'}
+      </div>
+      <div class="add-board-item">
+        <input type="text" id="repairs-input-${wi}" placeholder="Add repair..." onkeydown="if(event.key==='Enter')addWorkerItem(${wi},'repairs')">
+        <button onclick="addWorkerItem(${wi},'repairs')">+</button>
+      </div>
+      <div class="worker-section-label">Fit Up</div>
+      <div class="board-items" id="fitup-${wi}">
+        ${w.fitup.map((item, i) => `
+          <div class="board-item ${item.checked ? 'checked' : ''}">
+            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleWorkerItem(${wi},'fitup',${i})">
+            <div class="board-item-text">${item.text}</div>
+            <button onclick="removeWorkerItem(${wi},'fitup',${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;">×</button>
+          </div>
+        `).join('') || '<div style="padding:6px 10px;color:var(--muted);font-size:12px;">None</div>'}
+      </div>
+      <div class="add-board-item">
+        <input type="text" id="fitup-input-${wi}" placeholder="Add fit up..." onkeydown="if(event.key==='Enter')addWorkerItem(${wi},'fitup')">
+        <button onclick="addWorkerItem(${wi},'fitup')">+</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addWorkerItem(wi, type) {
+  const input = document.getElementById(`${type}-input-${wi}`);
+  const val = input.value.trim();
+  if (!val) return;
+  workers[wi][type].push({ text: val, checked: false });
+  input.value = '';
+  save();
+  renderWorkers();
+}
+
+function toggleWorkerItem(wi, type, i) {
+  workers[wi][type][i].checked = !workers[wi][type][i].checked;
+  save();
+  renderWorkers();
+}
+
+function removeWorkerItem(wi, type, i) {
+  workers[wi][type].splice(i, 1);
+  save();
+  renderWorkers();
+}
+
+function removeWorker(wi) {
+  if (!confirm(`Remove ${workers[wi].name}?`)) return;
+  workers.splice(wi, 1);
+  save();
+  renderWorkers();
+}
+
+// ========================
+// GOING LIST
+// ========================
+function addGoingItem() {
+  const customer = document.getElementById('goingCustomer').value.trim();
+  const vehicle = document.getElementById('goingVehicle').value.trim();
+  if (!vehicle) { alert('Please add a vehicle.'); return; }
+  goingList.push({
+    customer,
+    vehicle,
+    type: document.getElementById('goingType').value,
+    worker: document.getElementById('goingWorker').value.trim(),
+    date: new Date().toLocaleDateString('en-AU')
+  });
+  ['goingCustomer','goingVehicle','goingWorker'].forEach(id => document.getElementById(id).value = '');
+  save();
+  renderGoingList();
+}
+
+function renderGoingList() {
+  const el = document.getElementById('goingListItems');
+  if (!goingList.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🚗</div><div class="empty-text">No vehicles on the going list yet.</div></div>';
+    return;
+  }
+  const typeColors = { Panel: 'var(--panel)', Paint: 'var(--paint)', Both: 'var(--accent)', 'Fit Up': 'var(--green)', Repairs: 'var(--red)' };
+  el.innerHTML = goingList.map((item, i) => `
+    <div class="going-item" style="border-left-color:${typeColors[item.type] || 'var(--accent)'}">
+      <div class="going-item-info">
+        <div class="going-item-car">${item.vehicle}</div>
+        <div class="going-item-customer">${item.customer || '—'}${item.worker ? ' · ' + item.worker : ''} · ${item.date}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="going-badge" style="background:rgba(255,255,255,0.08);color:var(--text);">${item.type}</span>
+        <button onclick="removeGoingItem(${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;">×</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function removeGoingItem(i) {
+  goingList.splice(i, 1);
+  save();
+  renderGoingList();
+}
+
+
+// ========================
+// AI BOT
+// ========================
+let botChatHistory = [];
+let botRecognition = null;
+let botListening = false;
+
+function addChatMessage(text, role) {
+  const messages = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + (role === 'user' ? 'user' : 'bot');
+  div.innerHTML = '<div class="chat-bubble ' + (role === 'user' ? 'user-bubble' : 'bot-bubble') + '">' + text.replace(/\n/g,'<br>') + '</div>';
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping() {
+  const messages = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.id = 'typingIndicator';
+  div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function hideTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+async function sendBotMessage() {
+  const input = document.getElementById('botInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+
+  addChatMessage(text, 'user');
+  botChatHistory.push({ role: 'user', content: text });
+  showTyping();
+
+  try {
+    const response = await fetch('/api/bot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: botChatHistory })
+    });
+
+    const data = await response.json();
+    hideTyping();
+
+    if (!response.ok) {
+      addChatMessage('Error: ' + (data.error || 'Something went wrong, try again.'), 'bot');
+      return;
+    }
+
+    const reply = data.content && data.content[0] ? data.content[0].text : 'Sorry, something went wrong.';
+    botChatHistory.push({ role: 'assistant', content: reply });
+
+    // Check for job data
+    const jobMatch = reply.match(/<JOBDATA>([\s\S]*?)<\/JOBDATA>/);
+    const displayText = reply.replace(/<JOBDATA>[\s\S]*?<\/JOBDATA>/g, '').trim();
+
+    addChatMessage(displayText, 'bot');
+
+    if (jobMatch) {
+      try {
+        const jobData = JSON.parse(jobMatch[1].trim());
+        applyBotJobData(jobData);
+      } catch(e) { console.error('Job parse error', e); }
+    }
+
+  } catch(err) {
+    hideTyping();
+    addChatMessage('Connection error — make sure you are online and try again.', 'bot');
+  }
+}
+
+function applyBotJobData(data) {
+  if (data.customer) document.getElementById('customerName').value = data.customer;
+  if (data.phone) document.getElementById('customerPhone').value = data.phone;
+  if (data.vehicle) document.getElementById('vehicle').value = data.vehicle;
+  if (data.colour) document.getElementById('colour').value = data.colour;
+  if (data.rego) document.getElementById('rego').value = data.rego;
+  if (data.labour) document.getElementById('labour').value = data.labour;
+  if (data.parts) document.getElementById('parts').value = data.parts;
+
+  if (data.sections) {
+    document.querySelectorAll('.job-section-block').forEach(block => {
+      const key = block.dataset.section;
+      const items = data.sections[key];
+      if (items && items.length) {
+        block.querySelector('.job-section-items').innerText = items.join('\n');
+      }
+    });
+  }
+
+  // Show a button to jump to job sheet
+  const messages = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.innerHTML = '<button onclick="showSectionDirect(\'jobsheets\')" style="background:var(--accent);color:var(--black);border:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;letter-spacing:1px;">VIEW JOB SHEET →</button>';
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showSectionDirect(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function toggleBotVoice() {
+  if (botListening) stopBotVoice();
+  else startBotVoice();
+}
+
+function startBotVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Voice not supported — use Chrome'); return; }
+  botRecognition = new SR();
+  botRecognition.lang = 'en-AU';
+  botRecognition.interimResults = true;
+  botRecognition.continuous = false;
+
+  botRecognition.onresult = (e) => {
+    let transcript = '';
+    for (let i = 0; i < e.results.length; i++) transcript += e.results[i][0].transcript;
+    document.getElementById('botInput').value = transcript;
+  };
+
+  botRecognition.onend = () => {
+    stopBotVoice();
+    const val = document.getElementById('botInput').value.trim();
+    if (val) sendBotMessage();
+  };
+
+  botRecognition.onerror = () => stopBotVoice();
+  botRecognition.start();
+  botListening = true;
+  document.getElementById('botMicBtn').classList.add('bot-listening');
+}
+
+function stopBotVoice() {
+  botListening = false;
+  if (botRecognition) botRecognition.stop();
+  document.getElementById('botMicBtn').classList.remove('bot-listening');
+}
+
+// ========================
+// START
+// ========================
+init();
+</script>
+</body>
+</html>
